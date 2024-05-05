@@ -12,6 +12,7 @@ import processing.core.PImage;
  * 2. In the initializePaintings() method, initialize the PImage array to
  *    contain 4 images.
  * 
+ * 
  * 3. Use the loadImage() method to assign each of the 4 images in the /images
  *    folder to an index in the PImage array
  *    "starryNight.jpg", "strawHatPortrait.jpg",
@@ -47,21 +48,36 @@ import processing.core.PImage;
  */
 
 public class _03_VanGogh extends PApplet {
+	int imageIndex;
     PImage canvas;
     PImage paintbrushCursor;
     boolean initializeCanvas = true;
-    PImage[] images;
+    PImage[] images = new PImage[4];
+    String painter = "painterOnRoad.jpg";
+    String starry = "starryNight.jpg";
+    String straw = "strawHatPortrait.jpg";
+    String wheat = "wheatField.jpg";
     /*
      * Write your code below
      */
     Brush brush;
     
     void initializePaintings() {
-        images = new PImage[4];
+        images[0] = loadImage(painter);
+        images[1] = loadImage(starry);
+        images[2] = loadImage(straw);
+        images[3] = loadImage(wheat);
+        imageIndex = 0;
+        brush.setNewPainting(images[imageIndex]);
+        
     }
+
     
     void selectNextPainting() {
-        
+    	imageIndex +=1;
+    	if(imageIndex>=images.length) {
+    		imageIndex =0;
+    	}
     }
 
     @Override
@@ -82,7 +98,6 @@ public class _03_VanGogh extends PApplet {
         paintbrushCursor = loadImage("paintbrushCur.png");
         paintbrushCursor.resize(22 * 2, 28 * 2);
         cursor(paintbrushCursor);
-
         initializePaintings();
     }
 
@@ -106,6 +121,7 @@ public class _03_VanGogh extends PApplet {
             } else if (key == 32) {
                 // SPACE key pressed--go to next painting
                 selectNextPainting();
+                brush.setNewPainting(images[imageIndex]);
 
                 //canvas.resize(width, height);
                 initializeCanvas = true;
